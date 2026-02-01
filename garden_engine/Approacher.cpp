@@ -7,7 +7,7 @@ Approacher::Approacher(float distance, float speed_per_second) :
 	m_distanceAway(distance),
 	m_approachSpeed(speed_per_second)
 {
-	last_cycle_time = std::chrono::high_resolution_clock::now();
+	last_cycle_time = std::chrono::steady_clock::now();
 }
 
 Approacher::~Approacher(){
@@ -19,7 +19,7 @@ void Approacher::Step(){
 		return;
 	}
 
-	auto now = std::chrono::high_resolution_clock::now();
+	auto now = std::chrono::steady_clock::now();
 	auto duration = now - last_cycle_time;
 	long long ms =
 		std::chrono::duration_cast<std::chrono::milliseconds>(duration)

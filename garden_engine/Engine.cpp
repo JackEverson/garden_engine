@@ -53,13 +53,13 @@ int GardenEngine::Start(std::unique_ptr<Scene> scene, float fps) {
 	m_currentScene->onEnter();
 
 	float delta = 1.0f / fps;
-	auto frame_start = std::chrono::high_resolution_clock::now();
-	auto program_start_time = std::chrono::high_resolution_clock::now();
+	auto frame_start = std::chrono::steady_clock::now();
+	auto program_start_time = std::chrono::steady_clock::now();
 
 	while (!glfwWindowShouldClose(m_window)) {
 
 		delta = calculateDeltaTime(frame_start);
-		frame_start = std::chrono::high_resolution_clock::now();
+		frame_start = std::chrono::steady_clock::now();
 
 		Scene* next_scene = m_currentScene->update(delta);
 		if (next_scene) {
@@ -78,7 +78,7 @@ int GardenEngine::Start(std::unique_ptr<Scene> scene, float fps) {
 		GLCall(glfwSwapBuffers(m_window));
 		
 		 //finish and fps limit
-		auto end_time = std::chrono::high_resolution_clock::now();
+		auto end_time = std::chrono::steady_clock::now();
 		auto duration = end_time - frame_start;
 		int ms =
 			(int)std::chrono::duration_cast<std::chrono::milliseconds>(duration)
@@ -232,7 +232,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 
 float GardenEngine::calculateDeltaTime(std::chrono::steady_clock::time_point& lastFrameStart){
 
-	auto end_time = std::chrono::high_resolution_clock::now();
+	auto end_time = std::chrono::steady_clock::now();
 	auto duration = end_time - lastFrameStart;
 
 	float in_seconds = static_cast<float>(duration.count()) / 1'000'000'000.0f;
