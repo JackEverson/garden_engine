@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene.hpp"
+// #include "Scene.hpp"
 #include "MainScene.hpp"
 #include "gl_debug.hpp"
 #include "Audio.hpp"

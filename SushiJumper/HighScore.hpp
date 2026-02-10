@@ -1,51 +1,56 @@
-#include <string>
-#include <vector>
+#pragma once
+
 #include <fstream>
-#include <algorithm>
 
-struct Score {
-	std::string name;
-	float score;
-};
 
-void SaveHighScores(std::vector<Score>& scores, const std::string& filename) {
+inline void SaveHighScores(float& Score) {
 	
-	std::ofstream file(filename);
+	std::ofstream file("./highscore.txt");
 
 	if (!file.is_open()) {
 		return; // failed to open file
 	}
 
-    std::sort(scores.begin(), scores.end(),
-        [](const Score& a, const Score& b) {
-            return a.score > b.score;
-        });
-
-    if (scores.size() > 3) {
-        scores.resize(3);
-    }
-
-	for (const Score& s : scores) {
-		file << s.name << " " << s.score << "\n";
-	}
+		file << Score;
 
 	file.close();
 }
 
-std::vector<Score> LoadHighscores(const std::string& filename) {
-    std::vector<Score> scores;
-    scores.reserve(10);
-    std::ifstream file(filename);
+inline float LoadHighScore() {
+    std::ifstream file("./highscore.txt");
 
     if (!file.is_open()) {
-        return scores;
+        return 0.0f;
     }
 
-    Score s;
-    while (file >> s.name >> s.score) {
-        scores.push_back(s);
-    }
+    float s;
+    file >> s;
 
     file.close();
-    return scores;
+    return s;
 }
+
+// #ifdef _WIN32
+// #include <windows.h>
+// #else
+// #include <unistd.h>
+// #endif
+
+// #include <filesystem>
+// #include <string>
+
+// std::filesystem::path get_binary_directory() {
+// #ifdef _WIN32
+//     char buffer[MAX_PATH];
+//     GetModuleFileNameA(NULL, buffer, MAX_PATH);
+//     return std::filesystem::path(buffer).parent_path();
+// #else
+//     char buffer[1024];
+//     ssize_t len = readlink("/proc/self/exe", buffer, sizeof(buffer)-1);
+//     if (len != -1) {
+//         buffer[len] = '\0';
+//         return std::filesystem::path(buffer).parent_path();
+//     }
+//     return "";
+// #endif
+// }

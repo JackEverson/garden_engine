@@ -1,7 +1,7 @@
 #include "MainScene.hpp"
+#include "HighScore.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
-
 
 
 MainScene::MainScene() :
@@ -50,7 +50,7 @@ MainScene::~MainScene()
 
 void MainScene::onEnter()
 {
-
+	m_high_score = LoadHighScore();
 }
 
 void MainScene::onExit()
@@ -67,6 +67,7 @@ Scene* MainScene::update(float delta)
 	generatePlatforms(m_player.position.y);
 
 	m_fail_y += delta * m_fail_speed;
+	m_fail_speed += m_fail_increase;
 
 	if (m_restart) return new MainScene();
 	return nullptr;
@@ -193,22 +194,21 @@ void MainScene::renderImgui(int w, int h) {
 	float highscore_w = 1000;
 	float highscore_h = 400;
 
-	ImGui::SetNextWindowPos(ImVec2(w / 2 - highscore_w / 2, 0), ImGuiCond_Always);
+	// ImGui::SetNextWindowPos(ImVec2(w / 2 - highscore_w / 2, 0), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(highscore_w, highscore_h), ImGuiCond_Always);
 
 	ImGui::Begin("high score", NULL, window_flags);
 	ImGui::SetWindowFontScale(5.0);
 
-	std::string text = "Height";
-	float windowWidth = ImGui::GetWindowSize().x;
-	float textWidth = ImGui::CalcTextSize(text.c_str()).x;
-	ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+	ImGui::SetCursorPosX(0.0f);
 	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-	ImGui::Text("%s: %f", text.c_str(), m_player.position.y);
+	ImGui::Text("High Score: %f", m_high_score);
+	ImGui::Text("Height: %f", m_player.position.y);
+
 
 	ImGui::PopStyleColor();
 	ImGui::SetWindowFontScale(1.0);
-
 	ImGui::End();
 }
 

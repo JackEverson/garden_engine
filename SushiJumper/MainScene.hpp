@@ -44,6 +44,7 @@ private:
 
 	Player m_player;
 
+	float m_high_score = 0.0f;
 	bool m_clicked = false;
 	bool m_restart = false;
 
@@ -59,7 +60,8 @@ private:
 	const float m_maxPlatSpacingX = m_level_right - 0.3;;
 
 	float m_fail_y = -2.0f;
-	float m_fail_speed = 0.2f;
+	float m_fail_speed = 0.4f;
+	float m_fail_increase = 0.0001f;
 
 	float m_lastplatform_y = 0.0f;
 	std::vector<Platform> m_platforms;

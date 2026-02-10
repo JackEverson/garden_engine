@@ -130,26 +130,27 @@ void GardenEngine::setupGlfwWindow(std::string win_name, bool windowed, int win_
 
 	//std::cout << "Primary monitor detected to be:" << pMonitor << std::endl;
 
-
 	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
 	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
 
-	//// set fullscreen
-	//m_window = glfwCreateWindow(mode->width, mode->height, win_name.c_str(), pMonitor, NULL);
-
 	if (!windowed) {
 		//// fullscreenborderless window
-		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // No borders or title bar
+		// glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // No borders or title bar
 		m_window = glfwCreateWindow(mode->width, mode->height, win_name.c_str(), NULL, NULL);
+
+		// m_window = glfwCreateWindow(mode->width, mode->height, win_name.c_str(), pMonitor, NULL);
+
 		//glfwSetWindowPos(m_window, 0, 0);
+		glfwSetWindowMonitor(m_window, pMonitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 	}
 	else {
 		// set windowed
 		m_window = glfwCreateWindow(win_width, win_height, win_name.c_str(), NULL, NULL);
 	}
+
 
 	// vsync on
 	glfwSwapInterval(1);

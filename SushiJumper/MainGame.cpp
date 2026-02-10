@@ -25,13 +25,12 @@ void MainScene::updatePlayerPhysics(Player& player, float deltaTime) {
 
 	if (player.position.y < m_fail_y && player.isAlive) {
 		player.isAlive = false;
-		std::string scorepath = "scores.txt";
 
-		Score score = { "TestPlayer", player.position.y };
-		
-		std::vector<Score> scores = LoadHighscores(scorepath);
-		scores.push_back(score);
-		SaveHighScores(scores, scorepath);
+		float current_highscore = LoadHighScore();
+
+		if (player.position.y > current_highscore){
+			SaveHighScores(player.position.y);
+		}
 	}
 }
 
