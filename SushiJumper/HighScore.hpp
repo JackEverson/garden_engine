@@ -2,32 +2,31 @@
 
 #include <fstream>
 
+inline void SaveHighScores(float &Score) {
 
-inline void SaveHighScores(float& Score) {
-	
-	std::ofstream file("./highscore.txt");
+  std::ofstream file("./highscore.txt");
 
-	if (!file.is_open()) {
-		return; // failed to open file
-	}
+  if (!file.is_open()) {
+    return; // failed to open file
+  }
 
-		file << Score;
+  file << Score;
 
-	file.close();
+  file.close();
 }
 
 inline float LoadHighScore() {
-    std::ifstream file("./highscore.txt");
+  std::ifstream file("./highscore.txt");
 
-    if (!file.is_open()) {
-        return 0.0f;
-    }
+  if (!file.is_open()) {
+    return 0.0f;
+  }
 
-    float s;
-    file >> s;
+  float s;
+  file >> s;
 
-    file.close();
-    return s;
+  file.close();
+  return s;
 }
 
 // #ifdef _WIN32
