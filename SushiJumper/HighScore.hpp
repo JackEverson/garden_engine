@@ -2,31 +2,46 @@
 
 #include <fstream>
 
-inline void SaveHighScores(float &Score) {
+static std::string option_file = "./highscore.txt";
+static std::string highscore_label = "highscore";
+static std::string volume_label = "volume";
 
-  std::ofstream file("./highscore.txt");
+struct SushiJumperConfig {
+  float highscore = 0.0f;
+  float volume = 1.0f;
+};
+
+inline void SaveConfig(SushiJumperConfig &config) {
+
+  std::ofstream file(option_file);
 
   if (!file.is_open()) {
     return; // failed to open file
   }
 
-  file << Score;
+  file << highscore_label << " " << config.highscore << std::endl;
+  file << volume_label << " " << config.volume << std::endl;
 
   file.close();
 }
 
-inline float LoadHighScore() {
-  std::ifstream file("./highscore.txt");
+inline SushiJumperConfig LoadConfig() {
+  std::ifstream file(option_file);
 
-  if (!file.is_open()) {
-    return 0.0f;
+  SushiJumperConfig config;
+  std::string label;
+
+  if (file.is_open()) {
+    while (file >> label) {
+      if (label == highscore_label) {
+        file >> config.highscore;
+      } else if (label == volume_label) {
+        file >> config.volume;
+      }
+    }
   }
-
-  float s;
-  file >> s;
-
   file.close();
-  return s;
+  return config;
 }
 
 // #ifdef _WIN32

@@ -25,10 +25,8 @@ void MainScene::updatePlayerPhysics(Player &player, float deltaTime) {
   if (player.position.y < m_fail_y && player.isAlive) {
     player.isAlive = false;
 
-    float current_highscore = LoadHighScore();
-
-    if (player.position.y > current_highscore) {
-      SaveHighScores(player.position.y);
+    if (player.position.y > m_config.highscore) {
+      SaveConfig(m_config);
     }
   }
 }

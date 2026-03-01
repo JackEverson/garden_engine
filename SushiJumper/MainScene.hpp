@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Engine.hpp"
+#include "HighScore.hpp"
 #include "Scene.hpp"
-
-#include <print>
 
 struct Platform {
   glm::vec2 position;
@@ -41,7 +40,7 @@ private:
 
   Player m_player;
 
-  float m_high_score = 0.0f;
+  SushiJumperConfig m_config;
   bool m_clicked = false;
   bool m_restart = false;
 

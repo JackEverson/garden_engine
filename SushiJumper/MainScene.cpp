@@ -1,5 +1,6 @@
 #include "MainScene.hpp"
 #include "HighScore.hpp"
+#include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -10,6 +11,7 @@ MainScene::MainScene()
       m_platform_texture(Texture("./res/textures/platform.png")),
       m_rock_texture(Texture("./res/textures/rock.png")),
       m_death_texture(Texture("./res/textures/death_text.png")) {
+
   m_player.position = glm::vec2(0.0f, 0.3f);
   m_player.velocity = glm::vec2(0.0f, 0.0f);
   m_player.jump_power = 4.5f;
@@ -41,7 +43,17 @@ MainScene::MainScene()
 
 MainScene::~MainScene() {}
 
-void MainScene::onEnter() { m_high_score = LoadHighScore(); }
+void MainScene::onEnter() {
+  m_config = LoadConfig();
+
+  soundManager.Initialize();
+
+  std::string music = "music";
+  if (!soundManager.IsSoundPlaying(music)) {
+    soundManager.LoadSound(music, "./res/sounds/drum.ogg");
+    soundManager.PlayBackgroundMusic(music, 1.0f);
+  }
+}
 
 void MainScene::onExit() {}
 
@@ -176,8 +188,6 @@ void MainScene::renderImgui(int w, int h) {
   float highscore_w = 1000;
   float highscore_h = 400;
 
-  // ImGui::SetNextWindowPos(ImVec2(w / 2 - highscore_w / 2, 0),
-  // ImGuiCond_Always);
   ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
   ImGui::SetNextWindowSize(ImVec2(highscore_w, highscore_h), ImGuiCond_Always);
 
@@ -186,10 +196,26 @@ void MainScene::renderImgui(int w, int h) {
 
   ImGui::SetCursorPosX(0.0f);
   ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-  ImGui::Text("High Score: %f", m_high_score);
+  ImGui::Text("High Score: %f", m_config.highscore);
   ImGui::Text("Height: %f", m_player.position.y);
 
   ImGui::PopStyleColor();
   ImGui::SetWindowFontScale(1.0);
+  ImGui::End();
+
+  window_flags = 0;
+  window_flags |= ImGuiWindowFlags_NoScrollbar;
+  window_flags |= ImGuiWindowFlags_MenuBar;
+  window_flags |= ImGuiWindowFlags_NoMove;
+  window_flags |= ImGuiWindowFlags_NoResize;
+  window_flags |= ImGuiWindowFlags_NoNav;
+  window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+
+  static bool test_bool = true;
+  static bool window_collapsed = true;
+  ImGui::SetNextWindowCollapsed(window_collapsed);
+  ImGui::SetNextWindowPos(ImVec2(w - 200, 0), ImGuiCond_Always);
+  ImGui::Begin("options", NULL, window_flags);
+  ImGui::Checkbox("test", &test_bool);
   ImGui::End();
 }
