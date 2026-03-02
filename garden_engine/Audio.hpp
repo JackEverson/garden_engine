@@ -2,6 +2,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 
@@ -38,6 +39,7 @@ private:
   ~SimpleSoundManager() = default;
 
   bool _is_initalized = false;
+  std::mutex _lock;
 
   // OpenAL context
   ALCdevice *device = nullptr;

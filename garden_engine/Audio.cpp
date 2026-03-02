@@ -9,46 +9,48 @@
 #include "dr_wav.h"
 
 bool SimpleSoundManager::Initialize() {
-  if (_is_initalized) {
-    return true;
+
+  _lock.lock();
+
+  if (!_is_initalized) {
+    std::cout << "Initializing Simple Sound Manager..." << std::endl;
+
+    // Step 1: Open the default audio device
+    device = alcOpenDevice(nullptr);
+    if (!device) {
+      std::cerr << "Failed to open OpenAL device" << std::endl;
+      return false;
+    }
+
+    // Step 2: Create an audio context
+    context = alcCreateContext(device, nullptr);
+    if (!context) {
+      std::cerr << "Failed to create OpenAL context" << std::endl;
+      alcCloseDevice(device);
+      device = nullptr;
+      return false;
+    }
+
+    // Step 3: Make the context current (like OpenGL)
+    if (!alcMakeContextCurrent(context)) {
+      std::cerr << "Failed to make OpenAL context current" << std::endl;
+      alcDestroyContext(context);
+      alcCloseDevice(device);
+      context = nullptr;
+      device = nullptr;
+      return false;
+    }
+
+    std::cout << "OpenAL initialized successfully!" << std::endl;
+
+    // Print some info about our audio setup
+    std::cout << "OpenAL Vendor: " << alGetString(AL_VENDOR) << std::endl;
+    std::cout << "OpenAL Renderer: " << alGetString(AL_RENDERER) << std::endl;
+    std::cout << "OpenAL Version: " << alGetString(AL_VERSION) << std::endl;
+    _is_initalized = true;
   }
 
-  std::cout << "Initializing Simple Sound Manager..." << std::endl;
-
-  // Step 1: Open the default audio device
-  device = alcOpenDevice(nullptr);
-  if (!device) {
-    std::cerr << "Failed to open OpenAL device" << std::endl;
-    return false;
-  }
-
-  // Step 2: Create an audio context
-  context = alcCreateContext(device, nullptr);
-  if (!context) {
-    std::cerr << "Failed to create OpenAL context" << std::endl;
-    alcCloseDevice(device);
-    device = nullptr;
-    return false;
-  }
-
-  // Step 3: Make the context current (like OpenGL)
-  if (!alcMakeContextCurrent(context)) {
-    std::cerr << "Failed to make OpenAL context current" << std::endl;
-    alcDestroyContext(context);
-    alcCloseDevice(device);
-    context = nullptr;
-    device = nullptr;
-    return false;
-  }
-
-  std::cout << "OpenAL initialized successfully!" << std::endl;
-
-  // Print some info about our audio setup
-  std::cout << "OpenAL Vendor: " << alGetString(AL_VENDOR) << std::endl;
-  std::cout << "OpenAL Renderer: " << alGetString(AL_RENDERER) << std::endl;
-  std::cout << "OpenAL Version: " << alGetString(AL_VERSION) << std::endl;
-
-  _is_initalized = true;
+  _lock.unlock();
   return true;
 }
 
