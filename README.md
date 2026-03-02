@@ -17,7 +17,7 @@ Feel free to build and test the program, I always appreciate feedback on how to 
 Steps for building:
 
 ```bash
-git pull --recursive https://github.com/JackEverson/RoundAndRuthless.git
+git clone --recurse-submodules https://github.com/JackEverson/RoundAndRuthless.git
 cd RoundAndRuthless
 cmake -B ./build -S .
 
