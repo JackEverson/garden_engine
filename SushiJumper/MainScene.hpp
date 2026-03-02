@@ -54,7 +54,6 @@ private:
   const float m_maxPlatSpacingY = 0.25f;
   const float m_minPlatSpacingX = m_level_left + 0.3;
   const float m_maxPlatSpacingX = m_level_right - 0.3;
-  ;
 
   float m_fail_y = -2.0f;
   float m_fail_speed = 0.4f;
