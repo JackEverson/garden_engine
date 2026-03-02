@@ -1,5 +1,5 @@
 #include "MainScene.hpp"
-#include "HighScore.hpp"
+#include "Config.hpp"
 #include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -51,7 +51,7 @@ void MainScene::onEnter() {
   std::string music = "music";
   if (!soundManager.IsSoundPlaying(music)) {
     soundManager.LoadSound(music, "./res/sounds/drum.ogg");
-    soundManager.PlayBackgroundMusic(music, 1.0f);
+    soundManager.PlayBackgroundMusic(music, m_config.volume);
   }
 }
 
@@ -211,11 +211,21 @@ void MainScene::renderImgui(int w, int h) {
   window_flags |= ImGuiWindowFlags_NoNav;
   window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-  static bool test_bool = true;
-  static bool window_collapsed = true;
-  ImGui::SetNextWindowCollapsed(window_collapsed);
-  ImGui::SetNextWindowPos(ImVec2(w - 200, 0), ImGuiCond_Always);
+  float options_w = 200;
+  float options_h = 100;
+
+  ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
+  ImGui::SetNextWindowPos(ImVec2(w - options_w, 0), ImGuiCond_Always);
+  ImGui::SetNextWindowSize(ImVec2(options_w, options_h), ImGuiCond_Always);
+
   ImGui::Begin("options", NULL, window_flags);
-  ImGui::Checkbox("test", &test_bool);
+  bool volume_changed =
+      ImGui::SliderFloat(volume_label.c_str(), &m_config.volume, 0.0f, 1.0f);
+
+  if (volume_changed) {
+    SaveConfig(m_config);
+    soundManager.SetSoundVolume("music", m_config.volume);
+  }
+
   ImGui::End();
 }

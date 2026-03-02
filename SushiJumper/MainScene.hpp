@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Config.hpp"
 #include "Engine.hpp"
-#include "HighScore.hpp"
 #include "Scene.hpp"
 
 struct Platform {

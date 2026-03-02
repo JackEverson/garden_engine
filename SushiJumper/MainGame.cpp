@@ -1,4 +1,4 @@
-#include "HighScore.hpp"
+#include "Config.hpp"
 #include "MainScene.hpp"
 #include <glm/gtc/random.hpp>
 
@@ -26,6 +26,7 @@ void MainScene::updatePlayerPhysics(Player &player, float deltaTime) {
     player.isAlive = false;
 
     if (player.position.y > m_config.highscore) {
+      m_config.highscore = player.position.y;
       SaveConfig(m_config);
     }
   }
