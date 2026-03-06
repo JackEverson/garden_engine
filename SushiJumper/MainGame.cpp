@@ -126,23 +126,27 @@ void MainScene::handlePlayerInput(Player &player, GLFWwindow &window,
   }
 
   if (glfwGetKey(&window, GLFW_KEY_W) == GLFW_PRESS ||
-      glfwGetKey(&window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+      glfwGetKey(&window, GLFW_KEY_SPACE) == GLFW_PRESS ||
+      glfwGetKey(&window, GLFW_KEY_UP) == GLFW_PRESS) {
     if (m_player.isGrounded) {
       m_player.position.y += 0.001f;
       m_player.velocity.y += m_player.jump_power * adjust;
       m_player.isGrounded = false;
     }
   }
-  if (glfwGetKey(&window, GLFW_KEY_S) == GLFW_PRESS) {
+  if (glfwGetKey(&window, GLFW_KEY_S) == GLFW_PRESS ||
+      glfwGetKey(&window, GLFW_KEY_DOWN) == GLFW_KEY_DOWN) {
     if (m_player.isGrounded) {
       m_player.velocity.x *= 5 * delta;
     }
     squish = true;
   }
-  if (glfwGetKey(&window, GLFW_KEY_A) == GLFW_PRESS) {
+  if (glfwGetKey(&window, GLFW_KEY_A) == GLFW_PRESS ||
+      glfwGetKey(&window, GLFW_KEY_LEFT) == GLFW_PRESS) {
     m_player.velocity.x -= m_player.run_speed * delta * adjust;
   }
-  if (glfwGetKey(&window, GLFW_KEY_D) == GLFW_PRESS) {
+  if (glfwGetKey(&window, GLFW_KEY_D) == GLFW_PRESS ||
+      glfwGetKey(&window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
     m_player.velocity.x += m_player.run_speed * delta * adjust;
   }
 
