@@ -88,5 +88,6 @@ private:
                                const Platform &platform);
 
   void handlePlayerInput(Player &player, GLFWwindow &window, float delta);
-  void renderImgui(int w, int h);
+  void renderImgui(GLFWwindow &window, int w, int h);
+  void SetFullScreen(GLFWwindow &window, bool fullscreen);
 };

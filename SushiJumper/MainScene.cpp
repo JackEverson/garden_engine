@@ -1,7 +1,9 @@
 #include "MainScene.hpp"
 #include "Config.hpp"
+#include "GLFW/glfw3.h"
 #include "imgui.h"
 
+#include <X11/X.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 MainScene::MainScene()
@@ -142,7 +144,7 @@ void MainScene::render(GLFWwindow &window, Renderer &renderer) {
     renderer.RendBatch(view, projection);
   }
 
-  renderImgui(w, h);
+  renderImgui(window, w, h);
 }
 
 void MainScene::handleInput(GLFWwindow &window, float delta) {
@@ -171,7 +173,7 @@ void MainScene::updateLocations() {
       glm::vec3(0.0f, m_player_sprite.position.y, m_death_sprite.position.z);
 }
 
-void MainScene::renderImgui(int w, int h) {
+void MainScene::renderImgui(GLFWwindow &window, int w, int h) {
 
   ImGuiWindowFlags window_flags = 0;
   window_flags |= ImGuiWindowFlags_NoTitleBar;
@@ -219,13 +221,34 @@ void MainScene::renderImgui(int w, int h) {
   ImGui::SetNextWindowSize(ImVec2(options_w, options_h), ImGuiCond_Always);
 
   ImGui::Begin("options", NULL, window_flags);
+
+  // fullscreen
+  bool fullscreen_changed = ImGui::Checkbox("fullscreen", &m_config.fullscreen);
+  if (fullscreen_changed)
+    SetFullScreen(window, m_config.fullscreen);
+
+  // volume
   bool volume_changed =
       ImGui::SliderFloat(volume_label.c_str(), &m_config.volume, 0.0f, 1.0f);
-
-  if (volume_changed) {
-    SaveConfig(m_config);
+  if (volume_changed)
     soundManager.SetSoundVolume("music", m_config.volume);
-  }
+
+  if (volume_changed || fullscreen_changed)
+    SaveConfig(m_config);
 
   ImGui::End();
+}
+
+void MainScene::SetFullScreen(GLFWwindow &window, bool fullscreen) {
+
+  GLFWmonitor *monitor = glfwGetWindowMonitor(&window);
+
+  if (monitor == NULL) {
+    // set fullscreen
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    glfwSetWindowMonitor(&window, glfwGetPrimaryMonitor(), 0, 0, mode->width,
+                         mode->height, mode->refreshRate);
+  } else {
+    glfwSetWindowMonitor(&window, NULL, 0, 0, 1280, 720, 0);
+  }
 }

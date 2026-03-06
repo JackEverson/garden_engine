@@ -2,13 +2,15 @@
 
 #include <fstream>
 
-static std::string option_file = "./highscore.txt";
+static std::string option_file = "./sushiconfig.txt";
 static std::string highscore_label = "highscore";
 static std::string volume_label = "volume";
+static std::string fullscreen_label = "fullscreen";
 
 struct SushiJumperConfig {
   float highscore = 0.0f;
   float volume = 1.0f;
+  bool fullscreen = true;
 };
 
 inline void SaveConfig(SushiJumperConfig &config) {
@@ -21,6 +23,7 @@ inline void SaveConfig(SushiJumperConfig &config) {
 
   file << highscore_label << " " << config.highscore << std::endl;
   file << volume_label << " " << config.volume << std::endl;
+  file << fullscreen_label << " " << config.fullscreen << std::endl;
 
   file.close();
 }
@@ -37,6 +40,8 @@ inline SushiJumperConfig LoadConfig() {
         file >> config.highscore;
       } else if (label == volume_label) {
         file >> config.volume;
+      } else if (label == fullscreen_label) {
+        file >> config.fullscreen;
       }
     }
   }

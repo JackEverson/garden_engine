@@ -7,7 +7,6 @@
 #include <glad/glad.h>
 
 #include "GLFW/glfw3.h"
-#include "glm/trigonometric.hpp"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -148,13 +147,12 @@ void GardenEngine::setupGlfwWindow(std::string win_name, bool windowed,
                          mode->refreshRate);
   } else {
     // set windowed
-    m_window =
-        glfwCreateWindow(win_width, win_height, win_name.c_str(), NULL, NULL);
+    m_window = glfwCreateWindow(1280, 720, win_name.c_str(), NULL, NULL);
   }
 
   // vsync on
   glfwSwapInterval(1);
-
+  glfwSetWindowAspectRatio(m_window, 16, 9);
   // load icon
   // GLFWimage icon;
   // icon.pixels = Loadimgpngdotjpg();
@@ -171,7 +169,8 @@ void GardenEngine::setupGlfwWindow(std::string win_name, bool windowed,
   glfwMakeContextCurrent(m_window);
 
   glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
-  std::println("Creating GLFW Window...");
+
+  std::println("GLFW Window Created Successfully!");
 }
 
 void GardenEngine::setupOpenGl() {
@@ -182,6 +181,10 @@ void GardenEngine::setupOpenGl() {
   }
 
   m_renderer = new Renderer();
+
+  int display_w, display_h;
+  glfwGetFramebufferSize(m_window, &display_w, &display_h);
+  glViewport(0, 0, display_w, display_h);
 }
 
 void GardenEngine::setupImGui() {

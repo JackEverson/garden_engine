@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.4...4.0)
 
 project(RoundAndRuthless VERSION 1.0
-      DESCRIPTION "Round And Ruthless, a short horror game about liver and roundies"
+      DESCRIPTION "Round And Ruthless,
+      a short horror game about liver and roundies"
       LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -39,50 +40,50 @@ external/imgui/backends/imgui_impl_glfw.h
 )
 add_library(imgui STATIC ${imgui_src})
 target_include_directories(imgui PUBLIC
- external/imgui
- external/imgui/backends
+  external/imgui
+  external/imgui/backends
 )
 target_link_libraries(imgui PUBLIC
- glfw
+  glfw
 )
 
 #my libraries and resources
 #GardenEngine
 set(GardenEngine_src_files
-garden_engine/Engine.cpp
-garden_engine/Renderer.cpp
-garden_engine/Shader.cpp
-garden_engine/Texture.cpp
-garden_engine/Camera.cpp
-garden_engine/ClickCounter.cpp
-garden_engine/Audio.cpp
-garden_engine/Approacher.cpp
-garden_engine/Button.cpp
+  garden_engine/Engine.cpp
+  garden_engine/Renderer.cpp
+  garden_engine/Shader.cpp
+  garden_engine/Texture.cpp
+  garden_engine/Camera.cpp
+  garden_engine/ClickCounter.cpp
+  garden_engine/Audio.cpp
+  garden_engine/Approacher.cpp
+  garden_engine/Button.cpp
 
- # include files included for IDE sake
-garden_engine/Engine.hpp
-garden_engine/Renderer.hpp
-garden_engine/Shader.hpp
-garden_engine/Texture.hpp
-garden_engine/Camera.hpp
-garden_engine/ClickCounter.hpp
-garden_engine/gl_debug.hpp
-garden_engine/Audio.hpp
-garden_engine/Approacher.hpp
-garden_engine/Scene.hpp
-garden_engine/Button.hpp
+  # include files included for IDE sake
+  garden_engine/Engine.hpp
+  garden_engine/Renderer.hpp
+  garden_engine/Shader.hpp
+  garden_engine/Texture.hpp
+  garden_engine/Camera.hpp
+  garden_engine/ClickCounter.hpp
+  garden_engine/gl_debug.hpp
+  garden_engine/Audio.hpp
+  garden_engine/Approacher.hpp
+  garden_engine/Scene.hpp
+  garden_engine/Button.hpp
 )
 
 add_library(GardenEngine STATIC ${GardenEngine_src_files})
 target_include_directories(GardenEngine PUBLIC garden_engine)
 target_compile_features(GardenEngine PUBLIC cxx_std_23)
 target_link_libraries(GardenEngine PUBLIC
-glad
-glfw
-single_headers
-glm
-imgui
-OpenAL
+  glad
+  glfw
+  single_headers
+  glm
+  imgui
+  OpenAL
 )
 
 

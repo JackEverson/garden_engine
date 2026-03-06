@@ -1,6 +1,9 @@
+
 #include "Config.hpp"
 #include "MainScene.hpp"
 #include <glm/gtc/random.hpp>
+
+#include "GLFW/glfw3.h"
 
 void MainScene::updatePlayerPhysics(Player &player, float deltaTime) {
 
@@ -135,7 +138,7 @@ void MainScene::handlePlayerInput(Player &player, GLFWwindow &window,
     }
   }
   if (glfwGetKey(&window, GLFW_KEY_S) == GLFW_PRESS ||
-      glfwGetKey(&window, GLFW_KEY_DOWN) == GLFW_KEY_DOWN) {
+      glfwGetKey(&window, GLFW_KEY_DOWN) == GLFW_PRESS) {
     if (m_player.isGrounded) {
       m_player.velocity.x *= 5 * delta;
     }
