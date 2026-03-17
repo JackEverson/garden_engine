@@ -1,15 +1,13 @@
-# Round And Ruthless
+# garden_engine
 
-A small, click and point horror game where you must escape from the round creature called Sushi who is trying to harvest your liver.
+A small graphics engine backend for use in making simple graphical applications and games. Currently based around OpenGL (glad), GLFW, GLM, ImGUI, OpenAL-soft, and nothings/stb. 
 
-This project is under construction. It is directed towards learning OpenGL and building a graphics application engine.
+### SushiJumper
+<img width="2544" height="1396" alt="SushiJumper_ScreenShot" src="https://github.com/user-attachments/assets/35cad4ed-041d-4c74-a2dd-b3353f961d9f" />
 
 
-
+### RoundAndRuthless (upcoming)
 <img width="960" height="540" alt="SushiTunnel" src="https://github.com/user-attachments/assets/7be18234-9738-4a56-906b-69785d93119e" />
-
-
-
 
 
 Feel free to build and test the program, I always appreciate feedback on how to improve. All external repos are included as submodules.
