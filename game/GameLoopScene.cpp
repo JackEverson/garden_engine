@@ -266,7 +266,7 @@ void GameLoopScene::DrawHallway(glm::mat4 view, glm::mat4 projection,
   renderer.RendBatch(rotation3, view, projection);
 
   SpriteInstance door;
-  door.position = glm::vec3(hallway_width / 2, -0.05, -1.0f);
+  door.position = glm::vec3(hallway_width / 2 - 0.001, -0.05, -1.0f);
   door.size = glm::vec2(0.5f, 0.9f);
   door.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
   door.texture = &door_texture;

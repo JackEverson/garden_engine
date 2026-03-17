@@ -3,7 +3,6 @@
 #include "GLFW/glfw3.h"
 #include "imgui.h"
 
-#include <X11/X.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 MainScene::MainScene()
