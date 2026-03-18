@@ -94,7 +94,7 @@ COMMENT "Copying Resources"
 add_custom_command(TARGET copy_resources PRE_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
 "${CMAKE_CURRENT_SOURCE_DIR}/res/"
-"${CMAKE_CURRENT_BINARY_DIR}/res/"
+"${CMAKE_BINARY_DIR}/res/"
 )
 
 #GamePlay code
