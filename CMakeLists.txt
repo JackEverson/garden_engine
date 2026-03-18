@@ -48,8 +48,8 @@ target_link_libraries(imgui PUBLIC
 )
 
 #my libraries and resources
-#GardenEngine
-set(GardenEngine_src_files
+#garden_engine
+set(garden_engine_src_files
   garden_engine/Engine.cpp
   garden_engine/Renderer.cpp
   garden_engine/Shader.cpp
@@ -74,10 +74,10 @@ set(GardenEngine_src_files
   garden_engine/Button.hpp
 )
 
-add_library(GardenEngine STATIC ${GardenEngine_src_files})
-target_include_directories(GardenEngine PUBLIC garden_engine)
-target_compile_features(GardenEngine PUBLIC cxx_std_23)
-target_link_libraries(GardenEngine PUBLIC
+add_library(garden_engine STATIC ${garden_engine_src_files})
+target_include_directories(garden_engine PUBLIC garden_engine)
+target_compile_features(garden_engine PUBLIC cxx_std_23)
+target_link_libraries(garden_engine PUBLIC
   glad
   glfw
   single_headers
@@ -86,9 +86,6 @@ target_link_libraries(GardenEngine PUBLIC
   OpenAL
 )
 
-
-
-
 #Copy Resources
 add_custom_target(copy_resources
 COMMENT "Copying Resources"
@@ -96,8 +93,8 @@ COMMENT "Copying Resources"
 
 add_custom_command(TARGET copy_resources PRE_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-"${CMAKE_SOURCE_DIR}/res/"
-"res/"
+"${CMAKE_CURRENT_SOURCE_DIR}/res/"
+"${CMAKE_CURRENT_BINARY_DIR}/res/"
 )
 
 #GamePlay code
@@ -113,7 +110,7 @@ game/ExitScene.hpp
 add_library(GamePlay STATIC ${GamePlay_files})
 target_include_directories(GamePlay PUBLIC game)
 target_compile_features(GamePlay PUBLIC cxx_std_23)
-target_link_libraries(GamePlay PUBLIC GardenEngine)
+target_link_libraries(GamePlay PUBLIC garden_engine)
 
 
 #RoundAndRuthless executable
@@ -123,29 +120,7 @@ endif()
 
 add_executable(${PROJECT_NAME} game/RoundAndRuthless.cpp ${APP_ICON_RESOURCE})
 target_link_libraries(${PROJECT_NAME} PUBLIC
-GardenEngine
+garden_engine
 GamePlay
 )
 add_dependencies(${PROJECT_NAME} copy_resources)
-
-
-# Sushi application
-set(SushiJumper_files
-SushiJumper/IntroScene.hpp
-SushiJumper/MainScene.cpp
-SushiJumper/MainGame.cpp
-SushiJumper/MainScene.hpp
-SushiJumper/Config.hpp
-)
-
-add_library(SushiJumper_lib STATIC ${SushiJumper_files})
-target_include_directories(SushiJumper_lib  PUBLIC game)
-target_compile_features(SushiJumper_lib PUBLIC cxx_std_23)
-target_link_libraries(SushiJumper_lib PUBLIC GardenEngine)
-
-add_executable(SushiJumper SushiJumper/SushiJumper.cpp ${APP_ICON_RESOURCE})
-target_link_libraries(SushiJumper PUBLIC
-GardenEngine
-SushiJumper_lib
-)
-add_dependencies(SushiJumper copy_resources)
